@@ -198,6 +198,15 @@ class TestSession(BaseTestCase):
         partitions = session.get_available_partitions()
         self.assertEqual(partitions, ['foo'])
 
+    def test_get_partition_for_region(self):
+        bc_session = mock.Mock()
+        bc_session.get_partition_for_region.return_value = 'foo'
+        session = Session(botocore_session=bc_session)
+
+        partition = session.get_partition_for_region('us-west-2')
+        bc_session.get_partition_for_region.assert_called_with('us-west-2')
+        self.assertEqual(partition, 'foo')
+
     def test_get_available_regions(self):
         bc_session = mock.Mock()
         bc_session.get_available_regions.return_value = ['foo']

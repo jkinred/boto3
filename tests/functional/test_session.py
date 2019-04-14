@@ -37,6 +37,10 @@ class TestSession(unittest.TestCase):
         session = boto3.session.Session(region_name='us-west-1')
         self.assertEqual(session.region_name, 'us-west-1')
 
+    def test_get_partition_for_region(self):
+        partition = self.session.get_partition_for_region('us-west-2')
+        self.assertEqual(partition, 'aws')
+
     def test_get_available_partitions(self):
         partitions = self.session.get_available_partitions()
         self.assertIsInstance(partitions, list)
